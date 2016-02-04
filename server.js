@@ -1,27 +1,35 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 var PORT = 3000;
 
 
-app.get('/', function(req, res) { //home
-    res.send('hello express!');
-}); 
+app.use(bodyParser.urlencoded({extended: false}));
+
 
 //add additional routes. Change this to switch/case
 app.get('/home', function(req, res) { //aboutMe
-    res.send('This is a page about some guy (me) that wants to push keys on a keyboard for a living')
+    res.sendFile(process.cwd() + "/views/home.html");
 });
 
 app.get('/login', function (req, res) { //portfolio
-    res.send('This is all the cool stuff I do with those keystrokes... pretty cool right?')
+    res.sendFile(process.cwd() + "/views/login.html");
 });
 
 app.get('/account', function (req, res) { //contact
-    res.send('This is where you can find me')
+    res.sendFile(process.cwd() + "/views/account.html");
 });
 
 app.get('/help', function (req, res) { //contact
-    res.send('This is where you can find me')
+    res.sendFile(process.cwd() + "/views/help.html");
+});
+
+app.post("/login", function(req, res) {
+  console.log(req.body);
+  var myHTML = "<h1>Email: " + req.body.email + "</h1>";
+  myHTML += "<h1>Password: " + req.body.password + "</h1>";
+
+  res.redirect('/help');
 });
 
 //tell the app to listen
